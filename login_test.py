@@ -3,7 +3,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
@@ -75,35 +74,29 @@ def fill_registration_form(account, password):
     time.sleep(4)
 
     # 定位並點擊不訂閱
-   # 等待不定閱按钮可点击并点击
     not_subscribe_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, "//*[@id='news2']/div[2]")))
+        EC.element_to_be_clickable((By.XPATH, "//*[@id='news2']/div[2]"))
+    )
     not_subscribe_button.click()
     
-   
     # 等待2秒
     time.sleep(2)
 
-  # 定位并点击“储存变更”按钮
-    
-    #save_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button.button_confirm')))
-    
-   # save_button.click()
-    
-    button_confirm = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div/div[2]/div[2]/div/div/div[3]/div[9]/button[2]')))
+    # 定位并点击“储存变更”按钮
+    button_confirm = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div/div[2]/div[2]/div/div/div[3]/div[9]/button[2]'))
+    )
     button_confirm.click()
-
-
 
     time.sleep(5)  # 等待5秒
 
-# 等待 p-toast-message 元素可見和可互動
+    # 等待 p-toast-message 元素可見和可互動
     toast_message = WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((By.CLASS_NAME, 'p-toast-message')),
         "Timeout waiting for p-toast-message to be visible"
-    )    
+    )
 
-# 在 p-toast-message 元素內定位到 i 元素
+    # 在 p-toast-message 元素內定位到 i 元素
     close_button = toast_message.find_element(By.CSS_SELECTOR, 'i.pi.pi-times')
 
     # 點擊該按鈕
@@ -138,7 +131,7 @@ def fill_registration_form(account, password):
 csv_filename = 'register_account.csv'
 
 try:
-    with open(csv_filename, mode='r') as file:
+    with open(csv_filename, mode='r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
             # 使用從CSV文件中讀取的帳號和密碼填充註冊表單
